@@ -9,6 +9,10 @@ Then through the graph, it should output a `.dot` file so **graphviz** can gener
 
 Unfortunately, I was not able to conclude the program yet.
 
+Other things to do besides the ones marked on code itself:
+- Generate Dockerfile to conteinarize application
+- Create new workflows to format, lint and test code (for now there is only a format check with Black)
+
 ## Usage
 
 Well, since it is not completed yet, you can not use it right away.
