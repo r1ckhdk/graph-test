@@ -2,7 +2,7 @@ from src.grid import Grid
 from src.graph import Graph
 
 def main():
-    example_grid = [
+    input_grid = [
         ["1", "1", "#", "#", "#", "2"],
         ["1", "1", "#", "#", "#", "2"],
         ["*", "*", "*", "#", "#", "#"],
