@@ -1,4 +1,4 @@
-from .type_aliases import InputGrid, Neighbors, Intersections, Roads
+from .type_aliases import InputGrid, Neighbors, Intersections, Roads, Buildings
 
 class Grid:
     def __init__(self, input_grid: InputGrid):
@@ -58,37 +58,81 @@ class Grid:
                         
         return intersections
     
-    def find_roads(self) -> Roads:
-        roads: Roads = []
+    def get_buildings(self) -> Buildings:
+        buildings: Buildings = {}  
+        visited = set()
 
-        # Visitar todas as células
         for x in range(self.rows):
             for y in range(self.columns):
-                if self.is_road_cell(x, y):  # Verifica se a célula é uma estrada
-                    # Verifica se o segmento horizontal já foi detectado
-                    if y + 1 < self.columns and self.is_road_cell(x, y + 1):
-                        # Começo do segmento horizontal
-                        segment = []
-                        while y < self.columns and self.is_road_cell(x, y):
-                            segment.append((x, y))
-                            y += 1
-                        roads.append(segment)
+                # skips already visited or non building cells
+                if (x, y) in visited or not self.is_building_cell(x, y):
+                    continue
+                
+                building_id = int(self.matrix[x][y])
+                queue = [(x, y)]
+                building_cells = []
 
-                    # Verifica se o segmento vertical já foi detectado
-                    elif x + 1 < self.rows and self.is_road_cell(x + 1, y):
-                        # Começo do segmento vertical
-                        segment = []
-                        while x < self.rows and self.is_road_cell(x, y):
-                            segment.append((x, y))
-                            x += 1
-                        roads.append(segment)
+                # gets one cell from queue and adds to building_cells if not already visited
+                while queue:
+                    cx, cy = queue.pop()
+                    if (cx, cy) in visited:
+                        continue
+                    
+                    visited.add((cx, cy))
+                    building_cells.append((cx, cy))
+
+                    # checks for neighbors
+                    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                        nx, ny = cx + dx, cy + dy
+                        if self.is_inside_grid(nx, ny) and (nx, ny) not in visited:
+                            if self.is_building_cell(nx, ny) and int(self.matrix[nx][ny]) == building_id:
+                                queue.append((nx, ny))
+
+                # storing found buildings and its cells
+                if building_id not in buildings:
+                    buildings[building_id] = []
+                buildings[building_id].extend(building_cells)
+
+        return buildings
         
+        
+    
+    def get_roads(self) -> Roads:
+        roads: Roads = []
+        visited = set()
+
+        for x in range(self.rows):
+            for y in range(self.columns):
+                # skips already visited or non road cells
+                if (x, y) in visited or not self.is_road_cell(x, y):
+                    continue
+
+                # checks for horizontal segments
+                if self.is_inside_grid(x, y + 1) and self.is_road_cell(x, y + 1):
+                    segment = []
+                    while self.is_inside_grid(x, y) and self.is_road_cell(x, y):
+                        segment.append((x, y))
+                        visited.add((x, y)) 
+                        
+                        # if its a dead ends, it stops checking
+                        if self.is_dead_end(x, y):
+                            break
+                        
+                        y += 1
+                    roads.append(segment)
+                    continue 
+
+                # does the same for vertical axis
+                if self.is_inside_grid(x + 1, y) and self.is_road_cell(x + 1, y):
+                    segment = []
+                    while self.is_inside_grid(x, y) and self.is_road_cell(x, y):
+                        segment.append((x, y))
+                        visited.add((x, y))
+                        
+                        if self.is_dead_end(x, y):
+                            break
+                        
+                        x += 1
+                    roads.append(segment)
+
         return roads
-
-        
-    
-    
-        
-        
-    
-    
