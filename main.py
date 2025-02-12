@@ -2,6 +2,8 @@ from src.grid import Grid
 from src.graph import Graph
 
 def main():
+    
+    #TODO: get input grid and warehouses from external file
     input_grid = [
         ["1", "1", "#", "#", "#", "2"],
         ["1", "1", "#", "#", "#", "2"],
@@ -13,9 +15,10 @@ def main():
 
     warehouses = [1, 3]
 
-    grid = Grid(example_grid)
+    grid = Grid(input_grid)
     graph = Graph(grid, warehouses)
-
+    
+    #TODO: call function to generate graphviz and output a .dot file
 
 if __name__ == "__main__":
     main()
