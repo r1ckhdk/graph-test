@@ -1,6 +1,7 @@
 from src.grid import Grid
 from src.graph import Graph
 
+
 def main():
 
     # TODO: get input grid and warehouses from external file
@@ -10,7 +11,7 @@ def main():
         ["*", "*", "*", "#", "#", "#"],
         ["#", "#", "#", "#", "*", "#"],
         ["#", "#", "*", "*", "3", "3"],
-        ["*", "*", "*", "3", "3", "3"]
+        ["*", "*", "*", "3", "3", "3"],
     ]
 
     warehouses = [1, 3]
