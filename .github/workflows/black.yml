@@ -3,39 +3,45 @@ name: Black
 on: [push]
 
 jobs:
-  build:
+  format:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install black
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Run Black (check)
-    #   id: black_check
-    #   run: |
-    #     black --check $(git ls-files '*.py')
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Run Black (apply fixes)
-      run: black $(git ls-files '*.py')
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
 
-    - name: Commit and push if changed
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add .
-        if git diff --staged --quiet; then
-          echo "No changes to commit."
-        else
-          git commit -m "Apply Black formatting"
-          git push
-        fi
+      - name: Run Black (apply fixes)
+        run: black $(git ls-files '*.py')
+
+  commit:
+    needs: format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Apply Black formatting"
+            git push
+          fi
