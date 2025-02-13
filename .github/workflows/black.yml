@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
@@ -26,13 +26,30 @@ jobs:
       - name: Run Black (apply fixes)
         run: black $(git ls-files '*.py')
 
+      - name: Save formatted changes
+        run: |
+          git add .
+          git diff --cached --exit-code || echo "Changes detected"
+
+      - name: Upload formatted files
+        uses: actions/upload-artifact@v3
+        with:
+          name: formatted-code
+          path: .
+
   commit:
     needs: format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+
+      - name: Download formatted files
+        uses: actions/download-artifact@v3
+        with:
+          name: formatted-code
+          path: .
 
       - name: Commit and push if changed
         run: |
