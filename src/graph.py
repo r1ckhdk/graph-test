@@ -1,5 +1,6 @@
 from .grid import Grid
 from .type_aliases import Nodes, Edges, Warehouses
+from graphviz import Digraph
 
 class Graph:
     def __init__(self, grid: Grid, warehouses: Warehouses):
@@ -13,7 +14,7 @@ class Graph:
         self.add_intersections()
         self.add_dead_ends()
 
-    def add_buildings(self):
+    def add_buildings(self) -> None:
         buildings = self.grid.get_buildings()
         for building_id, cells in buildings.items():
             node_id = f"B{building_id}"
@@ -25,14 +26,14 @@ class Graph:
             for x, y in cells:
                 self.coordinate_to_node[(x, y)] = node_id
 
-    def add_intersections(self):
+    def add_intersections(self) -> None:
         intersections = self.grid.get_intersections()
         for idx, (x, y) in enumerate(intersections):
             intersection_id = f"I{idx + 1}"
             self.nodes[intersection_id] = {"type": "intersection", "position": (x, y)}
             self.coordinate_to_node[(x, y)] = intersection_id
 
-    def add_dead_ends(self):
+    def add_dead_ends(self) -> None:
         dead_end_id = 1
         for x in range(self.grid.rows):
             for y in range(self.grid.columns):
@@ -46,3 +47,19 @@ class Graph:
     #TODO: function to detect and edges to the graph (roads and its width)
     
     #TODO: function to convert graph to dot file (graphviz)
+    def to_graphviz(self, output_file: str = 'graph') -> None:
+        dot = Digraph('grid')
+
+        for node_id, node_info in self.nodes.items():
+            if node_info['type'] == 'building':
+                dot.node(node_id, shape='box', label=f"{node_id} (Building)")
+            elif node_info['type'] == 'warehouse':
+                dot.node(node_id, shape='square', label=f"{node_id} (Warehouse)")
+            elif node_info['type'] == 'intersection':
+                dot.node(node_id, shape='circle', label=f"{node_id} (Intersection)")
+            elif node_info['type'] == 'dead_end':
+                dot.node(node_id, shape='diamond', label=f"{node_id} (Dead End)")
+                
+        
+        dot.render(output_file, cleanup=True)
+        print(dot.source)

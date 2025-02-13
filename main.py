@@ -19,6 +19,8 @@ def main():
     graph = Graph(grid, warehouses)
     
     #TODO: call function to generate graphviz and output a .dot file
+    
+    graph.to_graphviz()
 
 if __name__ == "__main__":
     main()
