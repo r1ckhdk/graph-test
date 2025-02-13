@@ -49,10 +49,10 @@ class Graph:
 
     def to_graphviz(self, output_file: str = "graph", format="png") -> None:
         dot = Digraph("grid", format=format)
-        
+
         output_dir = "output"
         os.makedirs(output_dir, exist_ok=True)
-    
+
         dot_file_path = os.path.join(output_dir, f"{output_file}.dot")
         output_file_path = os.path.join(output_dir, output_file)
 
@@ -70,6 +70,6 @@ class Graph:
 
         dot.save(dot_file_path)
         dot.render(output_file_path, format=format, cleanup=True)
-    
+
         print(f"Dot file saved to: {dot_file_path}")
         print(f"PNG file saved to: {output_file_path}.{format}")
