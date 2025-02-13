@@ -7,10 +7,8 @@ This is a **work in progress** project for a test.
 The test consists of creating a program that receives a rectangular grid as input and converts it to a graph.
 Then through the graph, it outputs a rendered graph on `.png`format and a `.dot` file so you can check and edit, to generate it manually with **graphviz**, via the `dot` command.
 
-Unfortunately, I was not able to conclude the program yet.
-
-As for now, it is only capable of detecting nodes (buildings/warehouses correctly, intersections and dead ends partially, but no road width changes yet)
-
+> Unfortunately, I was not able to conclude the program yet.
+ As for now, it is only capable of detecting nodes (buildings/warehouses correctly, intersections and dead ends partially, but no road width changes yet)
 So, the output graph consists **only of nodes, and no edges**.
 
 I still need to figure out how detect and generate edges properly.
@@ -20,6 +18,8 @@ Other things to do besides the ones marked on code itself:
 - Create new workflows to format, lint and test code (for now there is only a format check with Black)
 
 ## Usage
+
+**Requires Python 3.12+**
 
 Well, since it is not completed yet, you can not use it right away.
 

@@ -1,7 +1,6 @@
+from graphviz import Digraph
 from .grid import Grid
 from .type_aliases import Nodes, Edges, Warehouses
-from graphviz import Digraph
-
 
 class Graph:
     def __init__(self, grid: Grid, warehouses: Warehouses):
