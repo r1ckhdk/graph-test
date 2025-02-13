@@ -47,8 +47,8 @@ class Graph:
     #TODO: function to detect and edges to the graph (roads and its width)
     
     #TODO: function to convert graph to dot file (graphviz)
-    def to_graphviz(self, output_file: str = 'graph') -> None:
-        dot = Digraph('grid')
+    def to_graphviz(self, output_file: str = 'graph', format='png') -> None:
+        dot = Digraph('grid', format=format)
 
         for node_id, node_info in self.nodes.items():
             if node_info['type'] == 'building':
@@ -61,5 +61,6 @@ class Graph:
                 dot.node(node_id, shape='diamond', label=f"{node_id} (Dead End)")
                 
         
-        dot.render(output_file, cleanup=True)
+        dot.save(f"{output_file}.dot")
+        dot.render(output_file, format=format, cleanup=True)
         print(dot.source)
