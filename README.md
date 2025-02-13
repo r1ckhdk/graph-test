@@ -62,8 +62,10 @@ But when it is finished, you can run the project with the following steps:
 ## Running with Docker
 
 1. Build image
+
     ```bash
     docker build -t graph-test .
 2. Run container with volume mapped to get output
+
     ```bash
     docker run --rm -v $(pwd)/output:/app/output graph-test
