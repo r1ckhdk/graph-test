@@ -29,19 +29,25 @@ But when it is finished, you can run the project with the following steps:
     ```bash
     python -m venv venv
     source venv/bin/activate
-3. Install dependencies:
+3. For the program be able to generate the output with graphviz, you need to have the binary on the machine. You can install it with:
 
     ```bash
-    # As for now, there is no external libraries being used so actually there is no requirements
+    apt install graphviz
+4. Install dependencies:
 
-    pip install -r requirements
-4. Edit `input_grid` and `warehouses` variables accordingly on main.py (appropriate way should be reading an external file or getting it through an API request, for example)
+    The only dependency now is the `graphviz` package, which can be installed with:
 
-5. Run the main script
+    ```bash
+    pip install graphviz
+    ```
+
+    Or you can install through the `requirements.txt` file with:
+
+    ```bash
+    pip install -r requirements.txt
+5. Edit `input_grid` and `warehouses` variables accordingly on main.py (appropriate way should be reading an external file or getting it through an API request, for example)
+
+6. Run the main script to create a `graph.png` file on the directory
 
     ```bash
     python main.py
-6. When the function to generate the dot file is done, you should run something like this
-
-    ```bash
-    dot -Tpng output_graph.dot -o graph.png
