@@ -95,7 +95,7 @@ class Grid:
 
         return buildings
         
-    
+    #TODO: get this right
     def get_road_width(self, x: int, y: int) -> int:
         if not self.is_road_cell(x, y):
             return 0
@@ -119,6 +119,7 @@ class Grid:
         return max(horizontal_width, vertical_width)
 
 
+    #TODO: get this right
     def get_roads(self) -> Roads:
         roads: Roads = []
         visited = set()

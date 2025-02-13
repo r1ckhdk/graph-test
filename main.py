@@ -16,10 +16,7 @@ def main():
     warehouses = [1, 3]
 
     grid = Grid(input_grid)
-    graph = Graph(grid, warehouses)
-    
-    #TODO: call function to generate graphviz and output a .dot file
-    
+    graph = Graph(grid, warehouses)    
     graph.to_graphviz()
 
 if __name__ == "__main__":
