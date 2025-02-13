@@ -11,11 +11,12 @@ Then through the graph, it outputs a rendered graph on `.png`format and a `.dot`
  As for now, it is only capable of detecting nodes (buildings/warehouses correctly, intersections and dead ends partially, but no road width changes yet)
 So, the output graph consists **only of nodes, and no edges**.
 
-I still need to figure out how detect and generate edges properly.
+I still need to figure out how detect and generate edges properly (which is a crucial).
 
-Other things to do besides the ones marked on code itself:
-- Generate Dockerfile to conteinarize application
-- Create new workflows to format, lint and test code (for now there is only a format check with Black)
+
+### Workflows
+
+There is currently two workflows on this repo, one for formatting code with **Black** and other for linting with **Pylint**.
 
 ## Usage
 
@@ -57,3 +58,12 @@ But when it is finished, you can run the project with the following steps:
 
     ```bash
     python main.py
+
+## Running with Docker
+
+1. Build image
+    ```bash
+    docker build -t graph-test .
+2. Run container with volume mapped to get output
+    ```bash
+    docker run --rm -v $(pwd)/output:/app/output graph-test

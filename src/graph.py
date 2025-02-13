@@ -1,3 +1,4 @@
+import os
 from graphviz import Digraph
 from .grid import Grid
 from .type_aliases import Nodes, Edges, Warehouses
@@ -48,6 +49,12 @@ class Graph:
 
     def to_graphviz(self, output_file: str = "graph", format="png") -> None:
         dot = Digraph("grid", format=format)
+        
+        output_dir = "output"
+        os.makedirs(output_dir, exist_ok=True)
+    
+        dot_file_path = os.path.join(output_dir, f"{output_file}.dot")
+        output_file_path = os.path.join(output_dir, output_file)
 
         for node_id, node_info in self.nodes.items():
             if node_info["type"] == "building":
@@ -61,6 +68,8 @@ class Graph:
 
         # TODO: when get edges is done, convert them to dot
 
-        dot.save(f"{output_file}.dot")
-        dot.render(output_file, format=format, cleanup=True)
-        print(dot.source)
+        dot.save(dot_file_path)
+        dot.render(output_file_path, format=format, cleanup=True)
+    
+        print(f"Dot file saved to: {dot_file_path}")
+        print(f"PNG file saved to: {output_file_path}.{format}")
