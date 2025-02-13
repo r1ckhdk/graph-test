@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12", "3.13"]
+        python-version: ["3.13"]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +34,7 @@ jobs:
       - name: Upload formatted files
         uses: actions/upload-artifact@v4
         with:
-          name: formatted-code-${{ matrix.python-version }}
+          name: formatted-code
           path: .
 
   commit:
